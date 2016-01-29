@@ -2,6 +2,7 @@ const objects = (function () {
   'use strict';
 
   var objects;
+  var fullCircleRotation = 360;
   var currentCircle = {
     rotation: 0,
     act() {},
@@ -9,7 +10,7 @@ const objects = (function () {
       canvas.drawLevel1CircleBig(this.rotation);
     },
     setRotation(rotationDelta) {
-      this.rotation = (this.rotation + rotationDelta) % 30;
+      this.rotation = (this.rotation + rotationDelta) % fullCircleRotation;
     }
   };
 

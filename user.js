@@ -2,6 +2,7 @@ const user = (function () {
   'use strict';
 
   var moving = false;
+  var movementRotationRatio = 0.0100;
 
   function init() {
     initHandlers();
@@ -22,7 +23,7 @@ const user = (function () {
 
     window.addEventListener('mousemove', function (e) {
       if (game.isOn()) {
-        objects.setCircleRotation(e.movementY / 100);
+        objects.setCircleRotation(e.movementY * movementRotationRatio);
       }
     });
 
