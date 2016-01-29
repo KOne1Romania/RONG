@@ -1,0 +1,5 @@
+server {
+  listen 7777;
+  server_name localhost;
+  root /Users/raul.mihaila/Desktop/ring-game;
+}
