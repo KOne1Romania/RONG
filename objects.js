@@ -22,11 +22,19 @@ const objects = (function () {
     destY: getRandomCoord(),
     act() {
       var nextCoord = math.getNextCoord(this.x, this.y, this.destX, this.destY, ballSpeed);
+
       this.x = nextCoord.x;
       this.y = nextCoord.y;
 
-      if (!math.circleContainsBall(0, 0, constants.circleSize, this.x, this.y, constants.ballSize)) {
-        game.stop();
+      var ballPosition = math.getBallPosition(0, 0, constants.circleSize, this.x, this.y,
+        constants.ballSize, nextCoord.angle);
+
+      if (!ballPosition.isIn) {
+        //game.stop();
+        this.x = ballPosition.nextX;
+        this.y = ballPosition.nextY;
+        this.destX = ballPosition.nextDestX;
+        this.destY = ballPosition.nextDestY;
       }
     },
     draw() {
@@ -55,10 +63,10 @@ const objects = (function () {
   }
 
   function getRandomCoord() {
-    var x = Math.random() * 1000;
-    return x < 500
-      ? x - 500
-      : x + 500;
+    var x = Math.random() * 2000;
+    return x < 1000
+      ? x / 2 - 1000
+      : x / 2 + 1000;
   }
 
   return {

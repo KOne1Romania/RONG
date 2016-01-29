@@ -6,12 +6,42 @@ const math = (function () {
 
     return {
       x: x1 + Math.cos(angle) * dist,
-      y: y1 + Math.sin(angle) * dist
+      y: y1 + Math.sin(angle) * dist,
+      angle
     };
   }
 
-  function circleContainsBall(cx, cy, cSize, bx, by, bSize) {
-    return pitagora(bx, by, cx, cy) + bSize / 2 < cSize / 2;
+  function getBallPosition(cx, cy, cSize, bx, by, bSize, currentAngle) {
+    var ballDistance = pitagora(bx, by, cx, cy);
+    var halfBallSize = bSize / 2;
+    var halfCircleSize = cSize / 2;
+    var outDistanceDiff = ballDistance + halfBallSize - halfCircleSize;
+    var result = {
+      ballDistance,
+      isIn: outDistanceDiff < 0
+    };
+
+    if (result.isIn) { return result; }
+
+    var reverseAngle = getReverseAngle(currentAngle);
+    var radiusAngle = Math.atan2(cy - by, cx - bx);
+    var nextAngle = getNextAngle(reverseAngle, radiusAngle);
+    result.nextX = bx - outDistanceDiff * Math.cos(nextAngle);
+    result.nextY = by - outDistanceDiff * Math.sin(nextAngle);
+    result.nextDestX = -result.nextX * 10000;
+    result.nextDestY = -result.nextY * 10000;
+
+    return result;
+  }
+
+  function getReverseAngle(angle) {
+    return angle > 0
+      ? angle - Math.PI
+      : angle + Math.PI;
+  }
+
+  function getNextAngle(currentAngle, referenceAngle) {
+    return 2 * referenceAngle - currentAngle;
   }
 
   function pitagora(x1, y1, x2, y2) {
@@ -60,7 +90,7 @@ const math = (function () {
     const delta = b * b - 4 * a * c;
     const hasOneSolution = delta === 0;
     const sqrtDelta = Math.sqrt(delta);
-    let x1, x2;
+    var x1, x2;
 
     if (delta < 0) { throw new Error('No solution'); }
 
@@ -74,6 +104,6 @@ const math = (function () {
 
   return {
     getNextCoord,
-    circleContainsBall
+    getBallPosition
   };
 })();
