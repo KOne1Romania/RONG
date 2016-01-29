@@ -4,8 +4,8 @@ const canvas = (function () {
   var canvas;
   var ctx;
   var images = new Map();
-  var circleCenterX;
-  var circleCenterY;
+  var canvasMidX;
+  var canvasMidY;
 
   function init() {
     createCanvas({width: 500, height: 300});
@@ -33,21 +33,25 @@ const canvas = (function () {
     canvas = document.createElement('canvas');
     canvas.width = config.width;
     canvas.height = config.height;
-    circleCenterY = config.height / 2;
-    circleCenterX = config.width / 2;
+    canvasMidX = canvas.width / 2;
+    canvasMidY = canvas.height / 2;
     ctx = canvas.getContext('2d');
+    ctx.translate(canvasMidX, canvasMidY);
 
     document.body.appendChild(canvas);
   }
 
   function reset() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(-canvasMidX, -canvasMidY, canvas.width, canvas.height);
   }
 
   function drawLevel1CircleBig(rotation) {
     var img = images.get('Level1CircleBig');
-    ctx.drawImage(img, circleCenterX - img.width / 2, circleCenterY - img.height / 2,
+    ctx.save();
+    ctx.rotate(rotation);
+    ctx.drawImage(img, -img.width / 2, -img.height / 2,
       img.width, img.height);
+    ctx.restore();
   }
 
   return {

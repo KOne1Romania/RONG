@@ -9,7 +9,7 @@ const objects = (function () {
       canvas.drawLevel1CircleBig(this.rotation);
     },
     setRotation(rotationDelta) {
-      this.rotation += rotationDelta;
+      this.rotation = (this.rotation + rotationDelta) % 30;
     }
   };
 

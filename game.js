@@ -1,11 +1,14 @@
 const game = (function () {
   var currentAnimationFrame;
+  var isOn_ = false;
 
   function start() {
+    isOn_ = true;
     iterate();
   }
 
   function stop() {
+    isOn_ = false;
     cancelAnimationFrame(currentAnimationFrame);
   }
 
@@ -16,8 +19,13 @@ const game = (function () {
     currentAnimationFrame = requestAnimationFrame(iterate);
   }
 
+  function isOn() {
+    return isOn_;
+  }
+
   return {
     start,
-    stop
+    stop,
+    isOn
   };
 })();
