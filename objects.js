@@ -13,9 +13,17 @@ const objects = (function () {
       this.rotation = (this.rotation + rotationDelta) % fullCircleRotation;
     }
   };
+  var currentBall = {
+    x: 0,
+    y: 0,
+    act() {},
+    draw() {
+
+    }
+  };
 
   function init() {
-    setObjects([currentCircle]);
+    setObjects([currentCircle, currentBall]);
   }
 
   function setObjects(objects_) {

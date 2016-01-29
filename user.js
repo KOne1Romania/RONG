@@ -22,7 +22,7 @@ const user = (function () {
     });
 
     window.addEventListener('mousemove', function (e) {
-      if (game.isOn()) {
+      if (game.isOn() && moving) {
         objects.setCircleRotation(e.movementY * movementRotationRatio);
       }
     });
