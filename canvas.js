@@ -6,6 +6,7 @@ const canvas = (function () {
   var images = new Map();
   var canvasMidX;
   var canvasMidY;
+  var ballSizeDrawingRatio = 0.3;
 
   function init() {
     createCanvas({width: 500, height: 300});
@@ -14,7 +15,8 @@ const canvas = (function () {
 
   function loadImages() {
     return Promise.all([
-      'Level1CircleBig'
+      'Level1CircleBig',
+      'BallGreen'
     ].map(loadImage));
   }
 
@@ -49,14 +51,25 @@ const canvas = (function () {
     var img = images.get('Level1CircleBig');
     ctx.save();
     ctx.rotate(rotation);
-    ctx.drawImage(img, -img.width / 2, -img.height / 2,
-      img.width, img.height);
+    ctx.drawImage(img, -img.width / 2, -img.height / 2);
+    ctx.restore();
+  }
+
+  function drawGreenBall(x, y) {
+    var img = images.get('BallGreen');
+    ctx.save();
+    ctx.translate(x + 5 * ballSizeDrawingRatio, y + 13 * ballSizeDrawingRatio);
+    ctx.drawImage(img, -img.width / 2 * ballSizeDrawingRatio, -
+      img.height / 2 * ballSizeDrawingRatio,
+      img.width * ballSizeDrawingRatio,
+      img.height * ballSizeDrawingRatio);
     ctx.restore();
   }
 
   return {
     init,
     reset,
-    drawLevel1CircleBig
+    drawLevel1CircleBig,
+    drawGreenBall
   };
 })();

@@ -18,7 +18,7 @@ const objects = (function () {
     y: 0,
     act() {},
     draw() {
-
+      canvas.drawGreenBall(this.x, this.y);
     }
   };
 
