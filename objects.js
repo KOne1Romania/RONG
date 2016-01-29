@@ -18,8 +18,8 @@ const objects = (function () {
   var currentBall = {
     x: 0,
     y: 0,
-    destX: getRandomCoord(),
-    destY: getRandomCoord(),
+    destX: getDistantCoord(),
+    destY: getDistantCoord(),
     act() {
       var nextCoord = math.getNextCoord(this.x, this.y, this.destX, this.destY, ballSpeed);
 
@@ -33,8 +33,8 @@ const objects = (function () {
         //game.stop();
         this.x = ballPosition.nextX;
         this.y = ballPosition.nextY;
-        this.destX = ballPosition.nextDestX;
-        this.destY = ballPosition.nextDestY;
+        this.destX = getDistantCoord(this.x);
+        this.destY = getDistantCoord(this.y);
       }
     },
     draw() {
@@ -62,8 +62,13 @@ const objects = (function () {
     currentCircle.setRotation(rotationDelta);
   }
 
-  function getRandomCoord() {
-    var x = Math.random() * 2000;
+  function getDistantCoord(x) {
+    if (x) {
+      return -x * 1000;
+    }
+
+    x = Math.random() * 2000;
+
     return x < 1000
       ? x / 2 - 1000
       : x / 2 + 1000;

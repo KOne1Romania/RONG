@@ -28,8 +28,6 @@ const math = (function () {
     var nextAngle = getNextAngle(reverseAngle, radiusAngle);
     result.nextX = bx - outDistanceDiff * Math.cos(nextAngle);
     result.nextY = by - outDistanceDiff * Math.sin(nextAngle);
-    result.nextDestX = -result.nextX * 10000;
-    result.nextDestY = -result.nextY * 10000;
 
     return result;
   }
