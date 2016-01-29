@@ -6,11 +6,13 @@ const canvas = (function () {
   var images = new Map();
   var canvasMidX;
   var canvasMidY;
-  var ballSizeDrawingRatio = 0.3;
 
   function init() {
-    createCanvas({width: 500, height: 300});
-    return loadImages();
+    return loadImages()
+      .then(function () {
+        var bigCircle = images.get('Level1CircleBig');
+        createCanvas({width: bigCircle.width, height: bigCircle.height});
+      });
   }
 
   function loadImages() {
@@ -57,8 +59,10 @@ const canvas = (function () {
 
   function drawGreenBall(x, y) {
     var img = images.get('BallGreen');
+    var ballSizeDrawingRatio = constants.ballSizeDrawingRatio;
+
     ctx.save();
-    ctx.translate(x + 5 * ballSizeDrawingRatio, y + 13 * ballSizeDrawingRatio);
+    ctx.translate(x, y);
     ctx.drawImage(img, -img.width / 2 * ballSizeDrawingRatio, -
       img.height / 2 * ballSizeDrawingRatio,
       img.width * ballSizeDrawingRatio,

@@ -3,6 +3,8 @@ const objects = (function () {
 
   var objects;
   var fullCircleRotation = 360;
+  var ballSpeed = constants.ballSpeed;
+
   var currentCircle = {
     rotation: 0,
     act() {},
@@ -16,7 +18,13 @@ const objects = (function () {
   var currentBall = {
     x: 0,
     y: 0,
-    act() {},
+    destX: getRandomCoord(),
+    destY: getRandomCoord(),
+    act() {
+      var nextCoord = math.getNextCoord(this.x, this.y, this.destX, this.destY, ballSpeed);
+      this.x = nextCoord.x;
+      this.y = nextCoord.y;
+    },
     draw() {
       canvas.drawGreenBall(this.x, this.y);
     }
@@ -40,6 +48,13 @@ const objects = (function () {
 
   function setCircleRotation(rotationDelta) {
     currentCircle.setRotation(rotationDelta);
+  }
+
+  function getRandomCoord() {
+    var x = Math.random() * 1000;
+    return x < 500
+      ? x - 500
+      : x + 500;
   }
 
   return {
