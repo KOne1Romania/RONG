@@ -59,14 +59,10 @@ const canvas = (function () {
 
   function drawGreenBall(x, y) {
     var img = images.get('BallGreen');
-    var ballSizeDrawingRatio = constants.ballSizeDrawingRatio;
 
     ctx.save();
     ctx.translate(x, y);
-    ctx.drawImage(img, -img.width / 2 * ballSizeDrawingRatio, -
-      img.height / 2 * ballSizeDrawingRatio,
-      img.width * ballSizeDrawingRatio,
-      img.height * ballSizeDrawingRatio);
+    ctx.drawImage(img, -img.width / 2, -img.height / 2, img.width, img.height);
     ctx.restore();
   }
 

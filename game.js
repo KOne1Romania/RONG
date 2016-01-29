@@ -16,7 +16,10 @@ const game = (function () {
     canvas.reset();
     objects.act();
     objects.draw();
-    currentAnimationFrame = requestAnimationFrame(iterate);
+
+    if (isOn_) {
+      currentAnimationFrame = requestAnimationFrame(iterate);
+    }
   }
 
   function isOn() {

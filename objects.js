@@ -24,6 +24,10 @@ const objects = (function () {
       var nextCoord = math.getNextCoord(this.x, this.y, this.destX, this.destY, ballSpeed);
       this.x = nextCoord.x;
       this.y = nextCoord.y;
+
+      if (!math.circleContainsBall(0, 0, constants.circleSize, this.x, this.y, constants.ballSize)) {
+        game.stop();
+      }
     },
     draw() {
       canvas.drawGreenBall(this.x, this.y);
