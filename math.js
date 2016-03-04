@@ -11,8 +11,8 @@ const math = (function () {
     };
   }
 
-  function getBallPosition(cx, cy, cSize, bx, by, bSize, currentAngle) {
-    var ballDistance = pitagora(bx, by, cx, cy);
+  function getBallNextPosition(centerX, centerY, cSize, ballX, ballY, bSize, currentAngle) {
+    var ballDistance = pitagora(ballX, ballY, centerX, centerY);
     var halfBallSize = bSize / 2;
     var halfCircleSize = cSize / 2;
     var outDistanceDiff = ballDistance + halfBallSize - halfCircleSize;
@@ -24,10 +24,10 @@ const math = (function () {
     if (result.isIn) { return result; }
 
     var reverseAngle = getReverseAngle(currentAngle);
-    var radiusAngle = Math.atan2(cy - by, cx - bx);
-    var nextAngle = getNextAngle(reverseAngle, radiusAngle);
-    result.nextX = bx - outDistanceDiff * Math.cos(nextAngle);
-    result.nextY = by - outDistanceDiff * Math.sin(nextAngle);
+    var radiusAngle = Math.atan2(centerY - ballY, centerX - ballX);
+    var nextAngle = getReflectionAngle(reverseAngle, radiusAngle);
+    result.nextX = ballX - outDistanceDiff * Math.cos(nextAngle);
+    result.nextY = ballY - outDistanceDiff * Math.sin(nextAngle);
 
     return result;
   }
@@ -38,7 +38,7 @@ const math = (function () {
       : angle + Math.PI;
   }
 
-  function getNextAngle(currentAngle, referenceAngle) {
+  function getReflectionAngle(currentAngle, referenceAngle) {
     return 2 * referenceAngle - currentAngle;
   }
 
@@ -71,11 +71,11 @@ const math = (function () {
     // otherwise see where the line intersects the circle
 
     // y = ax + b
-    // (cx - x)^2 + (cy - y)^2 = r^2
-    // cx^2 + x^2 - 2xcx + cy^2 + (ax + b)^2 - 2cy(ax + b) = r^2
-    // cx^2 + x^2 - 2xcx + cy^2 + ax^2 + b^2 + 2axb - 2axcy - 2cyb = r^2
-    // x^2 - 2xcx + ax^2 + 2axb - 2axcy = r^2 - cx^2 - cy^2 - b^2 + 2cyb
-    // (a + 1)x^2 + x(2ab - 2cx - 2acy) = r^2 - cx^2 - cy^2 - b^2 + 2cyb
+    // (centerX - x)^2 + (centerY - y)^2 = r^2
+    // centerX^2 + x^2 - 2xcenterX + centerY^2 + (ax + b)^2 - 2centerY(ax + b) = r^2
+    // centerX^2 + x^2 - 2xcenterX + centerY^2 + ax^2 + b^2 + 2axb - 2axcenterY - 2centerYb = r^2
+    // x^2 - 2xcenterX + ax^2 + 2axb - 2axcenterY = r^2 - centerX^2 - centerY^2 - b^2 + 2centerYb
+    // (a + 1)x^2 + x(2ab - 2centerX - 2acenterY) = r^2 - centerX^2 - centerY^2 - b^2 + 2centerYb
 
     // z1x^2 + z2x + z3 = 0
     // d = z2^2 - 4z1z3
@@ -102,6 +102,6 @@ const math = (function () {
 
   return {
     getNextCoord,
-    getBallPosition
+    getBallNextPosition
   };
 })();

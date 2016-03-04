@@ -1,11 +1,11 @@
 const objects = (function () {
   'use strict';
 
-  var objects;
-  var fullCircleRotation = 360;
-  var ballSpeed = constants.ballSpeed;
+  let objects;
+  const fullCircleRotation = 360;
+  const ballSpeed = constants.ballSpeed;
 
-  var currentCircle = {
+  const currentCircle = {
     rotation: 0,
     act() {},
     draw() {
@@ -15,27 +15,33 @@ const objects = (function () {
       this.rotation = (this.rotation + rotationDelta) % fullCircleRotation;
     }
   };
-  var currentBall = {
+  const currentBall = {
     x: 0,
     y: 0,
     destX: getDistantCoord(),
     destY: getDistantCoord(),
     act() {
-      var nextCoord = math.getNextCoord(this.x, this.y, this.destX, this.destY, ballSpeed);
+      this.move();
+    },
+    move() {
+      const nextCoord = math.getNextCoord(this.x, this.y, this.destX, this.destY, ballSpeed);
 
       this.x = nextCoord.x;
       this.y = nextCoord.y;
 
-      var ballPosition = math.getBallPosition(0, 0, constants.circleSize, this.x, this.y,
+      const ballPosition = math.getBallNextPosition(0, 0, constants.circleSize, this.x, this.y,
         constants.ballSize, nextCoord.angle);
 
       if (!ballPosition.isIn) {
         //game.stop();
-        this.x = ballPosition.nextX;
-        this.y = ballPosition.nextY;
-        this.destX = getDistantCoord(this.x);
-        this.destY = getDistantCoord(this.y);
+        this.updateMovement(ballPosition);
       }
+    },
+    updateMovement(ballPosition) {
+      this.x = ballPosition.nextX;
+      this.y = ballPosition.nextY;
+      this.destX = getDistantCoord(this.x);
+      this.destY = getDistantCoord(this.y);
     },
     draw() {
       canvas.drawGreenBall(this.x, this.y);

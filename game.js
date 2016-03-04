@@ -1,6 +1,8 @@
 const game = (function () {
-  var currentAnimationFrame;
-  var isOn_ = false;
+  'use strict';
+
+  let currentAnimationFrame;
+  let isOn_ = false;
 
   function start() {
     isOn_ = true;
