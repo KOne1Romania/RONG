@@ -1,8 +1,12 @@
 const math = (function () {
   'use strict';
 
+  function getAngle(x1, y1, x2, y2) {
+    return Math.atan2(y2 - y1, x2 - x1);
+  }
+
   function getNextCoord(x1, y1, x2, y2, dist) {
-    const angle = Math.atan2(y2 - y1, x2 - x1);
+    const angle = getAngle(x1, y1, x2, y2);
 
     return {
       x: x1 + Math.cos(angle) * dist,
@@ -11,11 +15,11 @@ const math = (function () {
     };
   }
 
-  function getBallNextPosition(circleCenterX, circleCenterY, cirlceSize, ballX,
+  function getBallNextPosition(circleCenterX, circleCenterY, circleSize, ballX,
     ballY, ballSize, currentAngle) {
     const ballDistance = pitagora(ballX, ballY, circleCenterX, circleCenterY);
     const halfBallSize = ballSize / 2;
-    const halfCircleSize = cirlceSize / 2;
+    const halfCircleSize = circleSize / 2;
     const outDistanceDiff = ballDistance + halfBallSize - halfCircleSize;
     const result = {
       ballDistance,
@@ -25,10 +29,10 @@ const math = (function () {
     if (result.isIn) { return result; }
 
     const reverseAngle = getReverseAngle(currentAngle);
-    const radiusAngle = Math.atan2(circleCenterY - ballY, circleCenterX - ballX);
-    const nextAngle = getReflectionAngle(reverseAngle, radiusAngle);
-    result.nextX = ballX - outDistanceDiff * Math.cos(nextAngle);
-    result.nextY = ballY - outDistanceDiff * Math.sin(nextAngle);
+    const referenceAngle = Math.atan2(circleCenterY - ballY, circleCenterX - ballX);
+    const nextAngle = getReflectionAngle(reverseAngle, referenceAngle);
+    result.nextX = ballX + outDistanceDiff * Math.cos(nextAngle);
+    result.nextY = ballY + outDistanceDiff * Math.sin(nextAngle);
 
     return result;
   }
@@ -102,6 +106,7 @@ const math = (function () {
   }
 
   return {
+    getAngle,
     getNextCoord,
     getBallNextPosition
   };

@@ -44,7 +44,8 @@ const objects = (function () {
         constants.ballSize, nextCoord.angle);
 
       if (!ballPosition.isIn) {
-        if (isInSpikesRange(spikeIntervals, nextCoord.angle)) {
+        if (isInSpikesRange(spikeIntervals,
+          math.getAngle(this.x, this.y, this.destX, this.destY))) {
           game.stop();
         }
 
