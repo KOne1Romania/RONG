@@ -7,29 +7,36 @@ const objects = (function () {
 
   const currentCircle = {
     rotation: 0,
+
     act() {},
+
     draw() {
       canvas.drawLevel1CircleBig(this.rotation);
     },
+
     setRotation(rotationDelta) {
       this.rotation = (this.rotation + rotationDelta) % fullCircleRotation;
     }
   };
+
   const currentBall = {
     x: 0,
     y: 0,
     destX: getDistantCoord(),
     destY: getDistantCoord(),
+
     act() {
       this.move();
     },
+
     move() {
       const nextCoord = math.getNextCoord(this.x, this.y, this.destX, this.destY, ballSpeed);
 
       this.x = nextCoord.x;
       this.y = nextCoord.y;
 
-      const ballPosition = math.getBallNextPosition(0, 0, constants.circleSize, this.x, this.y,
+      const ballPosition = math.getBallNextPosition(constants.circleCenterX,
+        constants.circleCenterY, constants.circleSize, this.x, this.y,
         constants.ballSize, nextCoord.angle);
 
       if (!ballPosition.isIn) {
@@ -37,12 +44,14 @@ const objects = (function () {
         this.updateMovement(ballPosition);
       }
     },
+
     updateMovement(ballPosition) {
       this.x = ballPosition.nextX;
       this.y = ballPosition.nextY;
       this.destX = getDistantCoord(this.x);
       this.destY = getDistantCoord(this.y);
     },
+
     draw() {
       canvas.drawGreenBall(this.x, this.y);
     }
