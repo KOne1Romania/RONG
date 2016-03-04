@@ -5,6 +5,10 @@ const objects = (function () {
   const fullCircleRotation = 360;
   const ballSpeed = constants.ballSpeed;
 
+  const spikeIntervals = [
+    {from: 247, to: 287}
+  ];
+
   const currentCircle = {
     rotation: 0,
 
@@ -15,7 +19,7 @@ const objects = (function () {
     },
 
     setRotation(rotationDelta) {
-      this.rotation = (this.rotation + rotationDelta) % fullCircleRotation;
+      this.rotation = normalizeRad(this.rotation + rotationDelta);
     }
   };
 
@@ -40,7 +44,10 @@ const objects = (function () {
         constants.ballSize, nextCoord.angle);
 
       if (!ballPosition.isIn) {
-        //game.stop();
+        if (isInSpikesRange(spikeIntervals, nextCoord.angle)) {
+          game.stop();
+        }
+
         this.updateMovement(ballPosition);
       }
     },
@@ -87,6 +94,49 @@ const objects = (function () {
     return x < 1000
       ? x / 2 - 1000
       : x / 2 + 1000;
+  }
+
+  function isInSpikesRange(spikeIntervals, angle) {
+    return spikeIntervals.some(interval => isInSpikeRange(interval, angle));
+  }
+
+  function isInSpikeRange(spikeInterval, radAngle) {
+    const circleRotation = radToPositiveAngle(currentCircle.rotation);
+    const from = normalizeAngle(circleRotation + spikeInterval.from);
+    const to = normalizeAngle(circleRotation + spikeInterval.to);
+    const angle = radToPositiveAngle(radAngle);
+
+    if (from < to) {
+      return angle > from && angle < to;
+    }
+
+    return angle > from && angle <= 0
+      || angle < to && angle >= 0;
+  }
+
+  function radToPositiveAngle(radAngle) {
+    return radToAngle(normalizeRad(radAngle));
+  }
+
+  function radToAngle(rad) {
+    return rad * 180 / Math.PI;
+  }
+
+  function normalizeAngle(angle) {
+    angle = angle % 360;
+
+    if (angle < 0) { angle += 360; }
+
+    return angle;
+  }
+
+  function normalizeRad(rad) {
+    const maxRad = Math.PI * 2;
+    rad = rad % maxRad;
+
+    if (rad < 0) { rad += maxRad; }
+
+    return rad;
   }
 
   return {

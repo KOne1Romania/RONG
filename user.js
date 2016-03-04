@@ -2,7 +2,7 @@ const user = (function () {
   'use strict';
 
   let moving = false;
-  const movementRotationRatio = 0.01;
+  const movementRotationRatio = 1 / Math.PI / 50;
 
   function init() {
     initHandlers();
