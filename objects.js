@@ -6,7 +6,7 @@ const objects = (function () {
   const ballSpeed = constants.ballSpeed;
 
   const spikeIntervals = [
-    {from: 247, to: 287}
+    {from: 244, to: 297}
   ];
 
   const currentCircle = {
@@ -45,7 +45,7 @@ const objects = (function () {
 
       if (!ballPosition.isIn) {
         if (isInSpikesRange(spikeIntervals,
-          math.getAngle(this.x, this.y, this.destX, this.destY))) {
+          math.getAngle(constants.circleCenterX, constants.circleCenterY, this.x, this.y))) {
           game.stop();
         }
 
@@ -56,8 +56,10 @@ const objects = (function () {
     updateMovement(ballPosition) {
       this.x = ballPosition.nextX;
       this.y = ballPosition.nextY;
-      this.destX = getDistantCoord(this.x);
-      this.destY = getDistantCoord(this.y);
+      // this.destX = getDistantCoord(this.x);
+      // this.destY = getDistantCoord(this.y);
+      this.destX = getDistantCoord();
+      this.destY = getDistantCoord();
     },
 
     draw() {

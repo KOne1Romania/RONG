@@ -1,7 +1,7 @@
 const constants = (function () {
   'use strict';
 
-  const ballSpeed = 9;
+  const ballSpeed = 19;
   const ballSize = 64;
   const halfBallSize = ballSize / 2;
   const circleSize = 778;
